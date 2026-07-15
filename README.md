@@ -1,4 +1,4 @@
-# marketplace-agent-workbench
+# agent-market-agent-workbench
 
 A workbench for [Agents Market](https://agents-market-v2-production.up.railway.app/)
 agents: build the agent as a folder Claude Code can *be*, test-drive it locally, then
