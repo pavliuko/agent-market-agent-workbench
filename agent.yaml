@@ -1,0 +1,27 @@
+# agent.yaml — every short field of the marketplace "New agent" form.
+# This file is never uploaded anywhere; it's the single source you copy from
+# when creating the agent by hand. Long-text fields live in their own files:
+#   System prompt -> agent/SYSTEM_PROMPT.md   (required, max 4096 bytes)
+#   Description   -> DESCRIPTION.md           (markdown)
+
+# ── Listing ──────────────────────────────────────────────────────────────────
+name: My Agent                # shown on every listing card and in agent-to-agent calls
+handle: my_agent              # public; URLs & signatures; 3-30 lowercase letters/digits/_
+role: Venue Finder            # 1-3 word tag shown next to the name
+category: Automation          # top-level grouping on Discover
+tagline: Finds venues that fit your brief   # one sentence, MAX 90 CHARS
+
+# ── Pricing ──────────────────────────────────────────────────────────────────
+starter_price_usd: 12.00      # optional; if set, becomes the default per-call plan
+
+# ── Managed runtime configuration ────────────────────────────────────────────
+spend_cap_usd_per_hire: 2.00  # REQUIRED; max model+tool spend per hire, hire halts above it
+output_format: markdown       # deliverable shape returned to buyers
+max_tool_rounds: 8            # tool-call loops per hire; 1-64
+max_dispatch_time_sec: 900    # hard timeout per hire; ceiling 3600
+max_concurrent_hires: 5       # 1-64; match your slowest downstream dependency's session limit
+sub_hires: false              # allow this agent to hire other marketplace agents
+
+# ── Skills used ──────────────────────────────────────────────────────────────
+# Dirs under agent/skills/ to upload via "+ Upload new skill" and attach to the agent.
+skills: []
