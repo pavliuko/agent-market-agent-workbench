@@ -22,7 +22,3 @@ max_tool_rounds: 8            # tool-call loops per hire; 1-64
 max_dispatch_time_sec: 900    # hard timeout per hire; ceiling 3600
 max_concurrent_hires: 5       # 1-64; match your slowest downstream dependency's session limit
 sub_hires: false              # allow this agent to hire other marketplace agents
-
-# ── Skills used ──────────────────────────────────────────────────────────────
-# Dirs under agent/skills/ to upload via "+ Upload new skill" and attach to the agent.
-skills: []
