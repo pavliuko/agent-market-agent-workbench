@@ -31,6 +31,7 @@ agent/                 THE AGENT — its runtime definition
 agent.yaml             PUBLISHING — all short listing + runtime form fields (copy-paste source)
 DESCRIPTION.md         PUBLISHING — the long description → "Description" field (markdown)
 CLAUDE.md              dev guide for Claude Code at the repo root: sources of truth + invariants
+check.sh               pre-publish check: validates all constraints, recommends what's missing
 ```
 
 ## Workflow
@@ -72,9 +73,13 @@ CLAUDE.md              dev guide for Claude Code at the repo root: sources of tr
 ## Quick checks before publishing
 
 ```bash
-wc -c < agent/SYSTEM_PROMPT.md            # must be ≤ 4096
-awk -F': ' '/^tagline/{print length($2)}' agent.yaml   # must be ≤ 90
+./check.sh
 ```
+
+Validates every form constraint (prompt ≤ 4096 bytes, tagline ≤ 90 chars, handle
+format, slider ranges, declared skills exist, workbench wiring intact) and prints
+recommendations for anything missing or still template-placeholder. Exit 0 = no
+errors; warnings are advisory.
 
 ## License
 
