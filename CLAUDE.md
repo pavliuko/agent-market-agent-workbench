@@ -20,4 +20,11 @@ root (`agent.yaml`, `DESCRIPTION.md`); the runtime prompt and skills live under
 - `agent/SYSTEM_PROMPT.md` ≤ 4096 bytes (`wc -c < agent/SYSTEM_PROMPT.md`)
 - `tagline` ≤ 90 chars; `handle` matches `[a-z0-9_]{3,30}`
 - `max_tool_rounds` and `max_concurrent_hires` in 1–64; `max_dispatch_time_sec` ≤ 3600
-- No secrets in this repo; connectors are configured on the platform, not here.
+- `private_mcp_servers` in `agent.yaml` mirrors the form's "Private MCP servers"
+  section: which connectors to tick, plus the name/url/auth needed to re-create
+  each one under Building → Connectors. Tokens are entered on the platform only.
+- No secrets in this repo; connector tokens are configured on the platform, not here.
+  Local-dev exception: copy `agent/.mcp.json.example` to `agent/.mcp.json` and fill
+  in your key so `cd agent && claude` gets real connector tools in the workbench.
+  That file is gitignored — keep it out of git and never copy the key into any
+  tracked file.

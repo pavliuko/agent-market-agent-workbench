@@ -1,0 +1,12 @@
+{
+  "// note": "Local-dev only. Copy to agent/.mcp.json (gitignored) and fill in your key so `cd agent && claude` gets real connector tools in the workbench. One block per private MCP server this agent uses. NEVER commit the real key or copy it into any tracked file.",
+  "mcpServers": {
+    "__server_name__": {
+      "type": "http",
+      "url": "https://__SET_ME__/mcp",
+      "headers": {
+        "__auth_header__": "__YOUR_LOCAL_DEV_TOKEN__"
+      }
+    }
+  }
+}
