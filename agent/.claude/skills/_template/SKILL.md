@@ -2,7 +2,10 @@
 # Claude Code wrapper — LOCAL DEV ONLY, never published. Keep Claude-specific frontmatter
 # here so it never pollutes the portable agent-skill frontmatter under agent/skills/.
 name: _template                  # rename to match the agent skill's directory under agent/skills/
-description: Dev wrapper that loads the agent skill of the same name.
+# description drives Claude Code routing in the workbench — describe the REAL skill using
+# the directive-description pattern (see CLAUDE.md → Building skills), and keep it in sync
+# with the published skill's description at agent/skills/<name>/SKILL.md.
+description: <verb-led one-liner on what the skill does>. ALWAYS invoke this skill when the user asks to <trigger 1>, <trigger 2>, or <trigger 3>. Do not <the direct action this skill replaces> — use this skill first.
 # Optional Claude Code-only fields (safe here — never shipped to the marketplace):
 # allowed-tools: Read Grep
 # disable-model-invocation: true

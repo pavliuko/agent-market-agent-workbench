@@ -2,7 +2,9 @@
 # ── Frontmatter: linted by ./check.sh, kept portable across Claude Code + IronClaw ──
 # Required by BOTH Claude Code and IronClaw:
 name: _template                  # rename to your skill (lowercase-kebab slug matching its directory)
-description: One sentence on what this skill does and when it should fire.
+# description: use the directive-description pattern (see CLAUDE.md → Building skills):
+#   <factual lead>. ALWAYS invoke this skill when <triggers>. Do not <direct action> — use this skill first.
+description: <verb-led one-liner on what the skill does>. ALWAYS invoke this skill when the user asks to <trigger 1>, <trigger 2>, or <trigger 3>. Do not <the direct action this skill replaces> — use this skill first.
 
 # IronClaw-specific (ignored by Claude Code, see .claude/rules/skills.md in nearai/ironclaw):
 version: 0.1.0
