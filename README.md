@@ -5,10 +5,13 @@ agents: build the agent as a folder Claude Code can *be*, test-drive it locally,
 create it on the platform by hand.
 
 **The idea:** `agent/` *is* the agent, and Claude Code *is* its runtime during
-development. `agent/CLAUDE.md` contains just `@SYSTEM_PROMPT.md`, and
-`agent/.claude/skills` symlinks to `agent/skills`, so running `claude` inside `agent/`
-boots the exact agent the marketplace will run — the real system prompt injected
-verbatim, the real skills loaded natively. No harness, no glue code.
+development. `agent/CLAUDE.md` contains just `@SYSTEM_PROMPT.md`, so running `claude`
+inside `agent/` boots the agent with the real system prompt injected verbatim. Skills
+live in two places on purpose: the **published** skill (portable frontmatter + body) is
+one self-contained file at `agent/skills/<name>/SKILL.md`, and Claude Code loads it in
+the workbench through a thin **wrapper** at `agent/.claude/skills/<name>/SKILL.md` — a
+real file (no symlink) that carries Claude-only frontmatter and references the published
+skill. `check.sh` keeps the wrapper and the skill in sync.
 
 Everything **outside** `agent/` is publishing metadata (listing fields, description,
 dev docs). It never touches the runtime context, so listing copy can't contaminate the
@@ -24,9 +27,13 @@ source file here.
 ```
 agent/                 THE AGENT — its runtime definition
   SYSTEM_PROMPT.md       the system prompt        → "System prompt" field (max 4096 bytes)
-  skills/                one dir per skill, each with a SKILL.md → "Skills used" (upload)
+  skills/                PUBLISHED skills → "Skills used" (upload). One dir per skill:
+    <name>/SKILL.md        one self-contained file: portable frontmatter (linted) + body
+    _template/             scaffold: copy it to start a new skill (never published)
   CLAUDE.md              just "@SYSTEM_PROMPT.md" — makes Claude Code adopt the prompt
-  .claude/skills         symlink → ../skills — makes Claude Code load the skills natively
+  .claude/skills/        LOCAL wrappers (real dir, no symlink) so the workbench loads skills:
+    <name>/SKILL.md        Claude-only frontmatter + "@../../../skills/<name>/SKILL.md" ref
+    _template/             wrapper scaffold — copy alongside the agent-skill scaffold
 
 agent.yaml             PUBLISHING — all short listing + runtime form fields (copy-paste source)
 DESCRIPTION.md         PUBLISHING — the long description → "Description" field (markdown)
@@ -37,8 +44,11 @@ check.sh               pre-publish check: validates all constraints, recommends 
 ## Workflow
 
 1. **Use this template** → clone your new repo.
-2. **Define the agent**: write `agent/SYSTEM_PROMPT.md` and add skills under
-   `agent/skills/` (one dir per skill with a `SKILL.md`).
+2. **Define the agent**: write `agent/SYSTEM_PROMPT.md`. For each skill, copy *both*
+   scaffolds — `agent/skills/_template/` → `agent/skills/<name>/` (write the portable
+   frontmatter + body there; this is what publishes) and `agent/.claude/skills/_template/`
+   → `agent/.claude/skills/<name>/` (set `name:` and the `@…/skills/<name>/SKILL.md`
+   reference; this is the local wrapper Claude Code loads). `./check.sh` verifies the pair.
 3. **Run it**: `cd agent && claude` — you're now talking to the agent itself.
    Give it a buyer brief, e.g.
    *"Find me three venues in Kyiv for a 50-person offsite in September."*
@@ -67,7 +77,7 @@ check.sh               pre-publish check: validates all constraints, recommends 
 | Max dispatch time | `agent.yaml` → `max_dispatch_time_sec` | hard per-hire timeout, ceiling 3600 |
 | Max concurrent hires | `agent.yaml` → `max_concurrent_hires` | 1–64; set to your slowest downstream dependency's session limit |
 | Sub-hires | `agent.yaml` → `sub_hires` | allow hiring other marketplace agents; off by default |
-| Skills used | `agent/skills/*/SKILL.md` | upload each via **+ Upload new skill**, then attach |
+| Skills used | `agent/skills/*/SKILL.md` (frontmatter + body) | upload each via **+ Upload new skill**, then attach |
 | Connectors | — | builder-owned connectors: coming soon on the platform |
 
 ## Quick checks before publishing
@@ -77,7 +87,7 @@ check.sh               pre-publish check: validates all constraints, recommends 
 ```
 
 Validates every form constraint (prompt ≤ 4096 bytes, tagline ≤ 90 chars, handle
-format, slider ranges, declared skills exist, workbench wiring intact) and prints
+format, slider ranges, skill `SKILL.md` frontmatter + body, workbench wiring intact) and prints
 recommendations for anything missing or still template-placeholder. Exit 0 = no
 errors; warnings are advisory.
 
