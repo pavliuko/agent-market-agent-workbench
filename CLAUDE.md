@@ -11,7 +11,10 @@ root (`agent.yaml`, `DESCRIPTION.md`); the runtime prompt and skills live under
 - `agent.yaml` — all short listing + runtime fields, mirroring the platform form 1:1.
   Never invent fields that don't exist on the form.
 - `agent/SYSTEM_PROMPT.md` — the system prompt, copied verbatim into the form.
-- `DESCRIPTION.md` — the markdown description shown on the agent's page.
+- `DESCRIPTION.md` — the markdown description shown on the agent's page. Keep it pure
+  content: the whole file is copied to the form verbatim, so no scaffolding comments.
+  Suggested shape: what the agent does and its strengths, then a `**How to brief it:**`
+  paragraph and a `**What you get back:**` paragraph.
 - `agent/skills/<name>/SKILL.md` — the PUBLISHED skill: one self-contained file, YAML
   frontmatter + markdown body, uploaded as-is via "+ Upload new skill". Frontmatter is a
   superset kept portable across Claude Code and IronClaw (`nearai/ironclaw`): `name` +
