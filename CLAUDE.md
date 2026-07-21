@@ -24,7 +24,7 @@ root (`agent.yaml`, `DESCRIPTION.md`); the runtime prompt and skills live under
   Holds Claude-only frontmatter (`allowed-tools`, `disable-model-invocation`, `argument-hint`, …) 
   so those never leak into the published frontmatter, then a single `@../../../skills/<name>/SKILL.md` 
   reference to the agentskill. Never published.
-- `_`-prefixed dirs (e.g. `_template`) in both trees are scaffolds: checked but never
+- `_`-prefixed dirs (e.g. `_example`) in both trees are scaffolds: checked but never
   published. Copy the pair to start a new skill.
 
 ## Invariants to keep while editing
@@ -51,3 +51,17 @@ How to author a skill — the two-file convention, the directive-description pat
 `description:`, and the complete IronClaw Reborn frontmatter field reference — lives in the
 `building-skills` skill at `.claude/skills/building-skills/SKILL.md`. Invoke it (or just
 start editing a skill) before writing any `SKILL.md` frontmatter.
+
+To start a new skill named e.g. `venue-finder`, copy both `_example` dirs and set
+`name:` in each to match the directory:
+
+```
+cp -r agent/skills/_example        agent/skills/venue-finder
+cp -r agent/.claude/skills/_example agent/.claude/skills/venue-finder
+```
+
+Keep both `SKILL.md` files comment-free: the published one under `agent/skills/<name>/`
+is uploaded to the marketplace verbatim, so scaffolding comments would leak into the
+listing. The wrapper under `agent/.claude/skills/<name>/` carries only Claude-only
+frontmatter plus the single `@../../../skills/<name>/SKILL.md` reference. IronClaw caps:
+`activation.keywords` ≤ 20, `activation.patterns` ≤ 5 (extras are silently dropped).

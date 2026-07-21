@@ -29,11 +29,11 @@ agent/                 THE AGENT — its runtime definition
   SYSTEM_PROMPT.md       the system prompt        → "System prompt" field (max 4096 bytes)
   skills/                PUBLISHED skills → "Skills used" (upload). One dir per skill:
     <name>/SKILL.md        one self-contained file: portable frontmatter (linted) + body
-    _template/             scaffold: copy it to start a new skill (never published)
+    _example/             scaffold: copy it to start a new skill (never published)
   CLAUDE.md              just "@SYSTEM_PROMPT.md" — makes Claude Code adopt the prompt
   .claude/skills/        LOCAL wrappers (real dir, no symlink) so the workbench loads skills:
     <name>/SKILL.md        Claude-only frontmatter + "@../../../skills/<name>/SKILL.md" ref
-    _template/             wrapper scaffold — copy alongside the agent-skill scaffold
+    _example/             wrapper scaffold — copy alongside the agent-skill scaffold
 
 agent.yaml             PUBLISHING — all short listing + runtime form fields (copy-paste source)
 DESCRIPTION.md         PUBLISHING — the long description → "Description" field (markdown)
@@ -45,8 +45,8 @@ check.sh               pre-publish check: validates all constraints, recommends 
 
 1. **Use this template** → clone your new repo.
 2. **Define the agent**: write `agent/SYSTEM_PROMPT.md`. For each skill, copy *both*
-   scaffolds — `agent/skills/_template/` → `agent/skills/<name>/` (write the portable
-   frontmatter + body there; this is what publishes) and `agent/.claude/skills/_template/`
+   scaffolds — `agent/skills/_example/` → `agent/skills/<name>/` (write the portable
+   frontmatter + body there; this is what publishes) and `agent/.claude/skills/_example/`
    → `agent/.claude/skills/<name>/` (set `name:` and the `@…/skills/<name>/SKILL.md`
    reference; this is the local wrapper Claude Code loads). `./check.sh` verifies the pair.
 3. **Run it**: `cd agent && claude` — you're now talking to the agent itself.

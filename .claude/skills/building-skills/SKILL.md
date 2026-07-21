@@ -14,7 +14,7 @@ portable to IronClaw. The body must be ≤ 64 KiB.
 Each published skill under `agent/skills/<name>/` also gets a local Claude Code wrapper at
 `agent/.claude/skills/<name>/SKILL.md` (real dir, no symlink) that carries Claude-only
 frontmatter and references `@../../../skills/<name>/SKILL.md`. `check.sh` verifies the pair.
-Copy the paired `_template/` scaffolds to start a new skill.
+Copy the paired `_example/` scaffolds to start a new skill.
 
 Source of truth for the fields below: `crates/ironclaw_skills/src/types.rs` in
 `nearai/ironclaw` (do not invent fields — reconcile with that file if it changes).

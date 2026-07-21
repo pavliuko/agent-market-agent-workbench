@@ -186,7 +186,7 @@ echo "── Skills (agent/skills/) ──────────────�
 # Convention: one self-contained SKILL.md per skill dir — YAML frontmatter (name +
 # description, plus optional IronClaw activation/requires; kept portable across Claude
 # Code and IronClaw) followed by the markdown body. Uploaded as-is; no assembly step.
-# Dirs starting with '_' (e.g. _template) are scaffolds: checked but not counted as
+# Dirs starting with '_' (e.g. _example) are scaffolds: checked but not counted as
 # publishable, and their failures are advisory.
 found=0
 for d in agent/skills/*/; do
@@ -223,7 +223,7 @@ for d in agent/skills/*/; do
   if [ "$scaffold" -eq 0 ]; then
     w="agent/.claude/skills/$s/SKILL.md"
     if [ ! -f "$w" ]; then
-      err "skill '$s': no Claude wrapper at $w — 'cd agent && claude' won't load it (copy agent/.claude/skills/_template)"
+      err "skill '$s': no Claude wrapper at $w — 'cd agent && claude' won't load it (copy agent/.claude/skills/_example)"
     else
       wname="$(skill_fm "$w" | fm_val name)"
       [ -n "$wname" ] && [ "$wname" != "$s" ] && warn "skill '$s': wrapper name '$wname' ≠ '$s'"
@@ -233,7 +233,7 @@ for d in agent/skills/*/; do
     fi
   fi
 done
-[ "$found" -eq 0 ] && warn "no publishable skills under agent/skills/ — fine if the prompt alone is enough (scaffolds like _template don't count)"
+[ "$found" -eq 0 ] && warn "no publishable skills under agent/skills/ — fine if the prompt alone is enough (scaffolds like _example don't count)"
 
 echo
 echo "── Workbench wiring ─────────────────────────────────────"
